@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"time"
 )
 
 // OMap is the struct that can be serialized as JSON
@@ -32,7 +33,11 @@ func main() {
 	var w *os.File
 	var rmp *OMap
 	if e == nil {
-		rmp = new(OMap)
+		rmp = &OMap{
+			LastReset: mp.LastReset,
+			ResetT:    mp.ResetT,
+			UserCons:  make(map[string]uint64),
+		}
 		for k, v := range mp.UserCons {
 			if !rg.MatchString(k) {
 				rmp.UserCons[k] = v
